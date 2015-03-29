@@ -175,7 +175,7 @@ def got_message(message):
         quotes.append("\n".join(last10Messages))
         "\n".join(last10Messages)
         saveDb()
-        sendquote.submitQuote("\n".join(last10Messages) +"\n\nSubmitted by quotebot on " +str(datetime.now))
+        sendquote.submitQuote("\n".join(last10Messages) +"\n\nSubmitted by quotebot on " +str(datetime.now()))
         s.sendall("PRIVMSG %s :"%(CHANNEL if words[2] == CHANNEL else name) +name +": Quoted!" + "\r\n")
     elif words[1] == 'PRIVMSG' and (words[2] == CHANNEL or words[2] == NICK) and '@help' in words[3] and connected and not CLASSICMODE:
         s.sendall("PRIVMSG %s :"%(CHANNEL if words[2] == CHANNEL else name) +"This bot uses the quotebot software, which is created by Nathan Krantz-Fire (a.k.a zippynk), based on Jokebot by Hardmath123." +"\r\n")
