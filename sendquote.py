@@ -39,6 +39,7 @@ def submitQuote(quote):
     lines = quote.split("\n")
     for i in lines:
         s.sendall(i +"\r")
+    s.sendall("\n")
     time.sleep(0.2)
     s.shutdown(socket.SHUT_RDWR)
     s.close()
