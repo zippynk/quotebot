@@ -29,7 +29,7 @@ if "/" in __file__:
     configLocation = os.path.dirname(__file__) +"/config.json"
 else:
     configLocation = "config.json"
-thisVersion = [0,1,0,"d"] # The version of quotebot, as a list of numbers (eg [0,1,0] means "v0.1.0"). A "d" at the end means that the current version is a development version and very well may break at some point.
+thisVersion = [0,1,0] # The version of quotebot, as a list of numbers (eg [0,1,0] means "v0.1.0"). A "d" at the end means that the current version is a development version and very well may break at some point.
 
 if (len(sys.argv) < 5 or len(sys.argv) > 6) and not "--readconfig" in sys.argv:
     print """Usage: python quotebot.py <host> <channel (no #)> [--ssl|--plain] <nick> [--readconfig]
