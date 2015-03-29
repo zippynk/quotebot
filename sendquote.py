@@ -36,7 +36,9 @@ def submitQuote(quote):
     s = plain
     s.connect(("backtick.town", 1338))
     #time.sleep(0.2) # Currently commented out, as it seems I don't need it. I may revisit this in the future.
-    s.sendall(quote +"\r\n")
+    lines = quote.split("\n")
+    for i in lines:
+        s.sendall(i +"\r\n")
     time.sleep(0.2)
     s.shutdown(socket.SHUT_RDWR)
     s.close()
