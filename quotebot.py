@@ -172,7 +172,6 @@ def got_message(message):
         print "Joining..."
     elif words[1] == 'PRIVMSG' and (words[2] == CHANNEL or words[2] == NICK) and ('@quotethat' in words[3]) and connected:
         # Someone probably said `@quotethat`.
-        print "Caught."
         quotes.append("\n".join(last10Messages))
         "\n".join(last10Messages)
         saveDb()
