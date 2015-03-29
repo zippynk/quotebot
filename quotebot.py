@@ -33,7 +33,7 @@ thisVersion = [0,1,0,"d"] # The version of quotebot, as a list of numbers (eg [0
 if (len(sys.argv) < 5 or len(sys.argv) > 8) and not "--readconfig" in sys.argv:
     print """Usage: python quotebot.py <host> <channel (no #)> [--ssl|--plain] <nick> [--classic] [--readconfig] [--password] [--nodb]
 
-The `--readconfig` flag reads all other data (with the exception of the `--classic` and `--nodb` flags) from the file titled `config.json` in the same directory as quotebot. This installation should contain an example configuration file, titled `config_example.json`.
+The `--readconfig` flag reads all other data from the file titled `config.json` in the same directory as quotebot. This installation should contain an example configuration file, titled `config_example.json`.
 The `--password` flag prompts the user for a password when starting quotebot. Note that you may not be able to see the password as you type it, and that this can interfere with running quotebot in a location where you cannot actively input text. Does not run with `--readconfig`, as it does not apply there; the `config.json` file has an option for a password."""
     exit(0)
 
