@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-#  To run quotebot, type `python quotebot.py <host> <channel (no #)> [--ssl|--plain] <nick> [--classic] [--readconfig] [--nodb]` into a terminal, replacing the placeholders with your configuration.
+#  To run quotebot, type `python quotebot.py <host> <channel (no #)> [--ssl|--plain] <nick> [--readconfig]` into a terminal, replacing the placeholders with your configuration.
 
 # The `--readconfig` flag reads all other data from the file titled `config.json` in the same directory as quotebot. This installation should contain an example configuration file, titled `config_example.json`.
 # The `--password` flag prompts the user for a password when starting quotebot. Note that you may not be able to see the password as you type it, and that this can interfere with running quotebot in a location where you cannot actively input text. Does not run with `--readconfig`, as it does not apply there; the `config.json` file has an option for a password.
@@ -23,6 +23,7 @@ import pickle
 from datetime import datetime
 import json
 import getpass
+import sendquote
 
 if "/" in __file__:
     configLocation = os.path.dirname(__file__) +"/config.json"
@@ -30,8 +31,8 @@ else:
     configLocation = "config.json"
 thisVersion = [0,1,0,"d"] # The version of quotebot, as a list of numbers (eg [0,1,0] means "v0.1.0"). A "d" at the end means that the current version is a development version and very well may break at some point.
 
-if (len(sys.argv) < 5 or len(sys.argv) > 8) and not "--readconfig" in sys.argv:
-    print """Usage: python quotebot.py <host> <channel (no #)> [--ssl|--plain] <nick> [--classic] [--readconfig] [--password] [--nodb]
+if (len(sys.argv) < 5 or len(sys.argv) > 6) and not "--readconfig" in sys.argv:
+    print """Usage: python quotebot.py <host> <channel (no #)> [--ssl|--plain] <nick> [--readconfig]
 
 The `--readconfig` flag reads all other data from the file titled `config.json` in the same directory as quotebot. This installation should contain an example configuration file, titled `config_example.json`.
 The `--password` flag prompts the user for a password when starting quotebot. Note that you may not be able to see the password as you type it, and that this can interfere with running quotebot in a location where you cannot actively input text. Does not run with `--readconfig`, as it does not apply there; the `config.json` file has an option for a password."""
@@ -73,7 +74,7 @@ if "--readconfig" in sys.argv:
             PASSWORD = config["nick-password"]
         else:
             PASSWORD = False
-        PORT = 6697 if SSL else 6667
+        PORT = 6697 if SSL else 1338
     else:
         print "Failed to decode configuration file."
         if "d" in thisVersion:
@@ -84,7 +85,7 @@ else:
     HOST = sys.argv[1]
     CHANNEL = "#"+sys.argv[2]
     SSL = sys.argv[3].lower() == '--ssl'
-    PORT = 6697 if SSL else 6667
+    PORT = 6697 if SSL else 1338
 
     NICK = sys.argv[4]
     
@@ -175,7 +176,9 @@ def got_message(message):
         # Someone probably said `@quotethat`.
         print "Caught."
         quotes.append("\n".join(last10Messages))
+        "\n".join(last10Messages)
         saveDb()
+        sendQuote("\n".join(last10Messages) +"\n\nSubmitted by quotebot on " +str(datetime.now))
         s.sendall("PRIVMSG %s :"%(CHANNEL if words[2] == CHANNEL else name) +name +": Quoted!" + "\r\n")
     elif words[1] == 'PRIVMSG' and (words[2] == CHANNEL or words[2] == NICK) and '@help' in words[3] and connected and not CLASSICMODE:
         s.sendall("PRIVMSG %s :"%(CHANNEL if words[2] == CHANNEL else name) +"This bot uses the quotebot software, which is created by Nathan Krantz-Fire (a.k.a zippynk), based on Jokebot by Hardmath123." +"\r\n")
