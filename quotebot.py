@@ -98,7 +98,7 @@ USEDB = True
 
 if USEDB == True and os.path.isfile(os.path.expanduser("~") +'/.quotebot_database.p'):
     dbLoad = pickle.load(open(os.path.expanduser("~") +'/.quotebot_database.p','rb'))
-    if dbLoad['version'] == [0,1,0,"d"]:
+    if dbLoad['version'] == [0,1,0]:
         quotes = dbLoad['quotes']
     else:
         print "This database was created with an old or unknown version of quotebot. Please use the newest version (or correct fork) and try again. If this is not possible, move or delete the file '~/.quotebot_database.p' and re-run quotebot. A new database will be created automatically."
@@ -188,7 +188,7 @@ def got_message(message):
         s.sendall("PRIVMSG %s :"%(CHANNEL if words[2] == CHANNEL else name) +" " +"\r\n")
         s.sendall("PRIVMSG %s :"%(CHANNEL if words[2] == CHANNEL else name) +"Commands:" +"\r\n")
         s.sendall("PRIVMSG %s :"%(CHANNEL if words[2] == CHANNEL else name) +" " +"\r\n")
-        s.sendall("PRIVMSG %s :"%(CHANNEL if words[2] == CHANNEL else name) +"`@quote Start:Time-End:Time` quotes the messages sent between the start and end times and adds them to the DB. Must be from the past 24 hours. Use Pacific 24-Hour time for your timestamps." +"\r\n")
+      #  s.sendall("PRIVMSG %s :"%(CHANNEL if words[2] == CHANNEL else name) +"`@quote Start:Time-End:Time` quotes the messages sent between the start and end times and adds them to the DB. Must be from the past 24 hours. Use Pacific 24-Hour time for your timestamps." +"\r\n")
         s.sendall("PRIVMSG %s :"%(CHANNEL if words[2] == CHANNEL else name) +"`@quotethat` quotes the last 10 messages and adds them to the DB." +"\r\n")
         s.sendall("PRIVMSG %s :"%(CHANNEL if words[2] == CHANNEL else name) +"`@help` displays a message similar to this guide, but tailored to IRC users." +"\r\n")
         s.sendall("PRIVMSG %s :"%(CHANNEL if words[2] == CHANNEL else name) +" " +"\r\n")
