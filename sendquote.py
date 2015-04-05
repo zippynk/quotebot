@@ -13,6 +13,8 @@ import ssl
 import sys
 import time
 import os
+newline = """
+"""
 
 def read_loop(callback):
     data = ""
@@ -38,8 +40,8 @@ def submitQuote(quote):
     #time.sleep(0.2) # Currently commented out, as it seems I don't need it. I may revisit this in the future.
     lines = quote.split("\n")
     for i in lines:
-        s.sendall(i +"\r")
-    s.sendall("\n")
+        s.sendall(quote +newline)
+        time.sleep(0.1)
     time.sleep(0.2)
     s.shutdown(socket.SHUT_RDWR)
     s.close()
