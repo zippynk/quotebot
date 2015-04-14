@@ -94,7 +94,7 @@ else:
     else:
         PASSWORD = False
         
-USEDB = True
+USEDB = False
 
 if USEDB == True and os.path.isfile(os.path.expanduser("~") +'/.quotebot_database.p'):
     dbLoad = pickle.load(open(os.path.expanduser("~") +'/.quotebot_database.p','rb'))
