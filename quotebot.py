@@ -11,6 +11,7 @@
 #  License, v. 2.0. If a copy of the MPL was not distributed with this
 #  file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
+thisVersion = [0,2,0,"d"]
 
 import socket
 import select
@@ -175,7 +176,7 @@ def got_message(message):
         quotes.append("\n".join(last10Messages))
         "\n".join(last10Messages)
         saveDb()
-        sendquote.submitQuote("\n".join(last10Messages) +"\n\nSubmitted by quotebot on " +str(datetime.now() +" on behalf of " +name))
+        sendquote.submitQuote("\n".join(last10Messages) +"\n\nSubmitted by quotebot on " +str(datetime.now()) +" on behalf of " +name)
         s.sendall("PRIVMSG %s :"%(CHANNEL if words[2] == CHANNEL else name) +name +": Quoted!" +"\r\n")
         last10Messages.append(str(datetime.now()) +" - " +NICK +": " +name +": Quoted!")
         if len(last10Messages) > 10:
