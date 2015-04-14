@@ -25,6 +25,15 @@ import json
 import getpass
 import sendquote
 
+# Begin dev edition code.
+if "d" in thisVersion:
+    print "WARNING! This is a development version of quotebot. Proceeding may corrupt quotebot database files, crash, and/or have other consequences. Proceed at your own risk."
+    if not raw_input("Are you sure you want to proceed? (y/n) ").lower() in ["yes","y","true","continue","yea","yeah","yup","sure"]:
+        print "Aborting."
+        exit(0)
+
+# End Dev Edition Code.
+
 if "/" in __file__:
     configLocation = os.path.dirname(__file__) +"/config.json"
 else:
@@ -37,15 +46,6 @@ if (len(sys.argv) < 5 or len(sys.argv) > 6) and not "--readconfig" in sys.argv:
 The `--readconfig` flag reads all other data from the file titled `config.json` in the same directory as quotebot. This installation should contain an example configuration file, titled `config_example.json`.
 The `--password` flag prompts the user for a password when starting quotebot. Note that you may not be able to see the password as you type it, and that this can interfere with running quotebot in a location where you cannot actively input text. Does not run with `--readconfig`, as it does not apply there; the `config.json` file has an option for a password."""
     exit(0)
-
-# Begin dev edition code.
-if "d" in thisVersion:
-    print "WARNING! This is a development version of quotebot. Proceeding may corrupt quotebot database files, crash, and/or have other consequences. Proceed at your own risk."
-    if not raw_input("Are you sure you want to proceed? (y/n) ").lower() in ["yes","y","true","continue","yea","yeah","yup","sure"]:
-        print "Aborting."
-        exit(0)
-
-# End Dev Edition Code.
 
 if "--readconfig" in sys.argv:
     if os.path.isfile(configLocation):
@@ -175,7 +175,7 @@ def got_message(message):
         quotes.append("\n".join(last10Messages))
         "\n".join(last10Messages)
         saveDb()
-        sendquote.submitQuote("\n".join(last10Messages) +"\n\nSubmitted by quotebot on " +str(datetime.now()))
+        sendquote.submitQuote("\n".join(last10Messages) +"\n\nSubmitted by quotebot on " +str(datetime.now() +" on behalf of " +name))
         s.sendall("PRIVMSG %s :"%(CHANNEL if words[2] == CHANNEL else name) +name +": Quoted!" +"\r\n")
         last10Messages.append(str(datetime.now()) +" - " +NICK +": " +name +": Quoted!")
         if len(last10Messages) > 10:
