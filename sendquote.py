@@ -16,31 +16,14 @@ import os
 newline = """
 """
 
-def read_loop(callback):
-    data = ""
-    CRLF = '\r\n'
-    while True:
-        time.sleep(0.2)
-        try:
-            readables, writables, exceptionals = select.select([s], [s], [s])
-            if len(readables) == 1:
-                data += s.recv(512);
-                while CRLF in data:
-                    message = data[:data.index(CRLF)]
-                    data = data[data.index(CRLF)+2:]
-                    callback(message)
-        except KeyboardInterrupt:
-            s.close()
-            exit(0)
-
 def submitQuote(quote):
     plain = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s = plain
     s.connect(("localhost", 1338))
-    #time.sleep(0.2) # Currently commented out, as it seems I don't need it. I may revisit this in the future.
-    lines = quote.split("\n")
+#    time.sleep(0.2) # Currently commented out, as it seems I don't need it. I may revisit this in the future.
+    lines = quote
     for i in lines:
-        s.sendall(quote +newline)
+        s.sendall(i +newline)
         time.sleep(0.1)
     time.sleep(0.2)
     s.shutdown(socket.SHUT_RDWR)

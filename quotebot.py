@@ -176,7 +176,7 @@ def got_message(message):
         quotes.append("\n".join(last10Messages))
         "\n".join(last10Messages)
         saveDb()
-        sendquote.submitQuote("\n".join(last10Messages) +"\n\nSubmitted by quotebot on " +str(datetime.now()) +" on behalf of " +name)
+        sendquote.submitQuote(last10Messages +["","Submitted by quotebot on " +str(datetime.now()) +" on behalf of " +name])
         s.sendall("PRIVMSG %s :"%(CHANNEL if words[2] == CHANNEL else name) +name +": Quoted!" +"\r\n")
         last10Messages.append(str(datetime.now()) +" - " +NICK +": " +name +": Quoted!")
         if len(last10Messages) > 10:
