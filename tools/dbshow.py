@@ -1,4 +1,7 @@
 #!/usr/bin/env python
+
+# No longer really needed but I'll keep it here anyway
+
 import socket
 import select
 import random
