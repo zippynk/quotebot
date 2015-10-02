@@ -171,6 +171,10 @@ def got_message(message):
         s.sendall("NICK %s\r\n"%(NICK))
         s.sendall("JOIN %s\r\n"%(CHANNEL))
         print "Joining..."
+    if words[1] == 'PRIVMSG' and words[2] == CHANNEL:
+        last10Messages.append(str(datetime.now()) +" - " +name +": " +" ".join(words[3:len(words)])[1:len(" ".join(words[3:len(words)]))])
+        if len(last10Messages) > 10:
+            last10Messages.pop(0)
     elif words[1] == 'PRIVMSG' and (words[2] == CHANNEL or words[2] == NICK) and ('@quotethat' in words[3]) and connected:
         # Someone probably said `@quotethat`.
         quotes.append("\n".join(last10Messages))
@@ -178,9 +182,10 @@ def got_message(message):
         saveDb()
         sendquote.submitQuote(last10Messages +["","Submitted by quotebot on " +str(datetime.now()) +" on behalf of " +name])
         s.sendall("PRIVMSG %s :"%(CHANNEL if words[2] == CHANNEL else name) +name +": Quoted!" +"\r\n")
-        last10Messages.append(str(datetime.now()) +" - " +NICK +": " +name +": Quoted!")
-        if len(last10Messages) > 10:
-            last10Messages.pop(0)
+        if words[2] == CHANNEL:
+            last10Messages.append(str(datetime.now()) +" - " +NICK +": " +name +": Quoted!")
+            if len(last10Messages) > 10:
+                last10Messages.pop(0)
         
     elif words[1] == 'PRIVMSG' and (words[2] == CHANNEL or words[2] == NICK) and '@help' in words[3] and connected:
         s.sendall("PRIVMSG %s :"%(CHANNEL if words[2] == CHANNEL else name) +"This bot uses the quotebot software, which is created by Nathan Krantz-Fire (a.k.a zippynk), based on Jokebot by Hardmath123." +"\r\n")
@@ -195,9 +200,4 @@ def got_message(message):
         s.sendall("PRIVMSG %s :"%(CHANNEL if words[2] == CHANNEL else name) +" " +"\r\n")
         s.sendall("PRIVMSG %s :"%(CHANNEL if words[2] == CHANNEL else name) +"Quotebot source code: https://github.com/zippynk/quotebot (available under the Mozilla Public License 2.0)" +"\r\n")
         s.sendall("PRIVMSG %s :"%(CHANNEL if words[2] == CHANNEL else name) +"Jokebot source code: https://github.com/hardmath123/jokebot (available under the Unlicense)" +"\r\n")
-    if words[1] == 'PRIVMSG' and words[2] == CHANNEL:
-        last10Messages.append(str(datetime.now()) +" - " +name +": " +" ".join(words[3:len(words)])[1:len(" ".join(words[3:len(words)]))])
-        if len(last10Messages) > 10:
-            last10Messages.pop(0)
-
 read_loop(got_message)
